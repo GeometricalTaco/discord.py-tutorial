@@ -25,7 +25,7 @@ class Welcome(Cog):
 		except Forbidden:
 			pass
 
-		await member.add_roles(*(member.guild.get_roles(id_) for id_ in(904328853487489055)))
+		await member.add_roles(member.guild.get_role(904328853487489055))
 
 	@Cog.listener()
 	async def on_member_remove(self, member):

@@ -46,7 +46,7 @@ class Log(Cog):
 		if before.avatar_url != after.avatar_url:
 			embed = Embed(title="Avatar Change",
 						  description="New image below, old image to the right",
-						  colour=log.channel.guild.get_member(after.id).colour,
+						  colour=after.colour,
 						  timestamp=datetime.utcnow())
 			embed.set_thumbnail(url=before.avatar_url)
 			embed.set_image(url=after.avatar_url)
