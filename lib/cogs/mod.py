@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 from discord import Embed, Member
@@ -37,7 +37,7 @@ class Mod(Cog):
 						embed.add_field(name=name, value=value, inline=inline)
 
 					await self.log_channel.send(embed=embed)
-					
+
 				else:
 					await ctx.send(f"{target.display_name} could not be kicked")
 
@@ -82,7 +82,22 @@ class Mod(Cog):
 
 	@ban_members.error
 	async def ban_members_error(self, ctx, exc):
-		await ctx.send("Insufficient permissions to perform that task.")
+		if isinstance(exc, CheckFailure):
+			await ctx.send("Insufficient permissions to perform that task.")
+
+	@command(name="clear", aliases=["purge"])
+	@bot_has_permissions(manage_messages=True)
+	@has_permissions(manage_messages=True)
+	async def clear_messages(self, ctx, targets: Greedy[Member], limit: Optional[int] = 1):
+		def _check(message):
+			return not len(targets) or message.author in targets
+
+		with ctx.channel.typing():
+			await ctx.message.delete()
+			deleted = await ctx.channel.purge(limit=limit, after=datetime.utcnow()-timedelta(days=14),
+											  check=_check)
+
+			await ctx.send(f"Deleted {len(deleted):,} messages.", delete_after=5)
 
 	@Cog.listener()
 	async def on_ready(self):

@@ -84,7 +84,7 @@ class Bot(BotBase):
                 await ctx.send("I'm not ready to recieve commands. Please wait a few seconds")
 
     async def rules_reminder(self):
-        channel = self.get_channel(899636129698033697)
+        channel = self.get_channel(908360506610438266)
         await self.stdout.send("Remember to adhere to the rules!")
 
     async def on_connect(self):
@@ -97,7 +97,7 @@ class Bot(BotBase):
         if err == "on_command_error":
             await args[0].send("Something went wrong.")
 
-        channel = self.get_channel(899636129698033697)
+        channel = self.get_channel(908360506610438266)
         await self.stdout.send("An error occured.")
         raise
 
@@ -126,7 +126,7 @@ class Bot(BotBase):
     async def on_ready(self):
         if not self.ready:
             self.guild = self.get_guild(899636129698033694)
-            self.stdout = self.get_channel(899636129698033697)
+            self.stdout = self.get_channel(908360506610438266)
             #self.scheduler.add_job(self.print_message, CronTrigger(day_of_week=0, hour=12, minute=0, second=0))
             self.scheduler.start()
 
