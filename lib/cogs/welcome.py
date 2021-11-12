@@ -17,7 +17,7 @@ class Welcome(Cog):
 	@Cog.listener()
 	async def on_member_join(self, member):
 		db.execute("INSERT INTO exp (UserID) VALUES (?)", member.id)
-		await self.bot.get_channel(904327476401029181).send(f"Welcome to **{member.guild.name}** {member.mention}! Head over to <#899636129698033697> to say hi")
+		await self.bot.get_channel(904327476401029181).send(f"Welcome to **{member.guild.name}** {member.mention}! Head over to <#908360506610438266> to say hi")
 		
 		try:
 			await member.send(f"Welcome to **{member.guild.name}**! Enjoy your stay!")
