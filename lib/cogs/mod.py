@@ -17,6 +17,7 @@ class Mod(Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
+
 	@command(name="kick")
 	@bot_has_permissions(kick_members=True)
 	@has_permissions(kick_members=True)
@@ -56,6 +57,7 @@ class Mod(Cog):
 			await ctx.send("Insufficient permissions to perform that task.")
 			
 
+
 	@command(name="ban")
 	@bot_has_permissions(ban_members=True)
 	@has_permissions(ban_members=True)
@@ -94,6 +96,8 @@ class Mod(Cog):
 		if isinstance(exc, CheckFailure):
 			await ctx.send("Insufficient permissions to perform that task.")
 
+
+
 	@command(name="clear", aliases=["purge"])
 	@bot_has_permissions(manage_messages=True)
 	@has_permissions(manage_messages=True)
@@ -107,6 +111,8 @@ class Mod(Cog):
 											  check=_check)
 
 			await ctx.send(f"Deleted {len(deleted):,} messages.", delete_after=5)
+
+
 
 	@command(name="mute")
 	@bot_has_permissions(manage_roles=True)
@@ -190,6 +196,8 @@ class Mod(Cog):
 
 				await self.log_channel.send(embed=embed)
 
+
+
 	@command(name="unmute")
 	@bot_has_permissions(manage_roles=True)
 	@has_permissions(manage_roles=True, manage_guild=True)
@@ -200,6 +208,8 @@ class Mod(Cog):
 		else:
 			await self.unmute(ctx, targets, reason=reason)
 
+
+
 	@command(name="addprofanity", aliases=["addswears", "addcurses"])
 	@has_permissions(manage_guild=True)
 	async def add_profanity(self, ctx, *words):
@@ -208,6 +218,8 @@ class Mod(Cog):
 
 		profanity.load_censor_words_from_file("./data/profanity.txt")
 		await ctx.send("Action complete")
+
+
 
 	@command(name="delprofanity", aliases=["delswears", "delcurses"])
 	@has_permissions(manage_guild=True)
@@ -220,6 +232,8 @@ class Mod(Cog):
 
 		profanity.load_censor_words_from_file("./data/profanity.txt")
 		await ctx.send("Action complete.")
+
+		
 
 	@Cog.listener()
 	async def on_ready(self):

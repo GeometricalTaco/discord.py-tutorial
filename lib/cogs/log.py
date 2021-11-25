@@ -102,7 +102,7 @@ class Log(Cog):
 	@Cog.listener()
 	async def on_message_delete(self, message):
 		if not message.author.bot:
-			embed = Embed(title="Member deletion",
+			embed = Embed(title="Message deletion",
 						  description=f"Deleted by {message.author.display_name}",
 						  colour=message.author.colour,
 						  timestamp=datetime.utcnow())
