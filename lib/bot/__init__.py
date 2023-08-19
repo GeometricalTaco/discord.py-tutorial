@@ -12,16 +12,17 @@ from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredA
                                   CommandOnCooldown)
 from discord.ext.commands import when_mentioned_or, command, has_permissions
 
-from ..db import db
+##from ..db import db
 
+PREFIX = "+"
 OWNER_IDS = [547395323727708170]
 COGS = [path.split("\\")[-1][:-3] for path in glob("./lib/cogs/*.py")]
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument)
 
 
-def get_prefix(bot, message):
-    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
-    return when_mentioned_or(prefix)(bot, message)
+#def get_prefix(bot, message):
+    #prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+    #return when_mentioned_or(prefix)(bot, message)
 
 
 class Ready(object):
@@ -41,14 +42,15 @@ class Bot(BotBase):
     def __init__(self):
         self.ready = False
         self.cogs_ready = Ready()
+        self.prefix = PREFIX
 
         self.guild = None
         self.scheduler = AsyncIOScheduler()
 
-        db.autosave(self.scheduler)
+        #db.autosave(self.scheduler)
 
         super().__init__(
-            command_prefix=get_prefix, 
+            command_prefix=PREFIX, 
             owner_ids=OWNER_IDS,
             intents=Intents.all(),
         )
@@ -67,7 +69,7 @@ class Bot(BotBase):
         print("running setup..")
         self.setup()
 
-        with open("./lib/bot/token.0", "r", encoding="utf-8") as tf:
+        with open("./lib/bot/token", "r", encoding="utf-8") as tf:
             self.TOKEN = tf.read()
 
         print("running bot...")
@@ -97,7 +99,7 @@ class Bot(BotBase):
         if err == "on_command_error":
             await args[0].send("Something went wrong.")
 
-        channel = self.get_channel(908360506610438266)
+        channel = self.get_channel(1142556824030167170)
         await self.stdout.send("An error occured.")
         raise
 
@@ -125,8 +127,8 @@ class Bot(BotBase):
 
     async def on_ready(self):
         if not self.ready:
-            self.guild = self.get_guild(899636129698033694)
-            self.stdout = self.get_channel(908360506610438266)
+            self.guild = self.get_guild(1137356223646273588)
+            self.stdout = self.get_channel(1142556824030167170)
             #self.scheduler.add_job(self.print_message, CronTrigger(day_of_week=0, hour=12, minute=0, second=0))
             self.scheduler.start()
 
@@ -168,7 +170,7 @@ class Bot(BotBase):
                                   colour=member.colour,
                                   timestamp=datetime.utcnow())
 
-                    embed.set_thumbnail(url=member.avatar_url)
+                    embed.set_thumbnail(url=member.avatar)
 
                     fields = [("Member", member.display_name, False),
                               ("Message", message.content, False)]
@@ -176,8 +178,9 @@ class Bot(BotBase):
                     for name, value, inline in fields:
                         embed.add_field(name=name, value=value, inline=inline)
 
-                    mod = self.get_cog("Mod")
-                    await mod.log_channel.send(embed=embed)
+                    self.log_channel = self.get_channel(1142556824030167170)
+
+                    await self.log_channel.send(embed=embed)
                     await message.channel.send("Message relayed to moderators")
 
             else:
