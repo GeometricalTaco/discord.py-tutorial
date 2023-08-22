@@ -216,7 +216,7 @@ class Mod(Cog):
 		with open("./data/profanity.txt", "a", encoding="utf-8") as f:
 			f.write("".join([f"{w}\n" for w in words]))
 
-		profanity.load_censor_words_from_file("./data/profanity.txt")
+		#profanity.load_censor_words_from_file("./data/profanity.txt")
 		await ctx.send("Action complete")
 
 
@@ -230,7 +230,7 @@ class Mod(Cog):
 		with open("./data/profanity.txt", "w", encoding="utf-8") as f:
 			f.write("".join([f"{w}\n" for w in stored if w not in words]))
 
-		profanity.load_censor_words_from_file("./data/profanity.txt")
+		#profanity.load_censor_words_from_file("./data/profanity.txt")
 		await ctx.send("Action complete.")
 
 		
@@ -243,12 +243,12 @@ class Mod(Cog):
 
 			self.bot.cogs_ready.ready_up("mod")
 
-	@Cog.listener()
-	async def on_message(self, message):
-		if not message.author.bot:
-			if profanity.contains_profanity(message.content):
-				await message.delete()
-				await message.channel.send("You can't use that word/phrase here.")
+	# @Cog.listener()
+	# async def on_message(self, message):
+	# 	if not message.author.bot:
+	# 		#if profanity.contains_profanity(message.content):
+	# 			await message.delete()
+	# 			await message.channel.send("You can't use that word/phrase here.")
 
 def setup(bot):
 	bot.add_cog(Mod(bot))

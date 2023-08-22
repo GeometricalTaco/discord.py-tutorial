@@ -6,31 +6,33 @@ from discord import Embed, File, DMChannel
 from discord.errors import HTTPException, Forbidden
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
-from discord.ext.commands import Bot as BotBase
+from discord.ext.commands import Bot
 from discord.ext.commands import Context
 from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument,
                                   CommandOnCooldown)
 from discord.ext.commands import when_mentioned_or, command, has_permissions
 
-##from ..db import db
+from ..db import db
 
-PREFIX = "+"
+
 OWNER_IDS = [547395323727708170]
 COGS = [path.split("\\")[-1][:-3] for path in glob("./lib/cogs/*.py")]
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument)
 
 
-#def get_prefix(bot, message):
-    #prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
-    #return when_mentioned_or(prefix)(bot, message)
+def get_prefix(bot, message):
+    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+    return when_mentioned_or(prefix)(bot, message)
 
 
 class Ready(object):
     def __init__(self):
+        print("Ready class init")
         for cog in COGS:
             setattr(self, cog, False)
 
     def ready_up(self, cog):
+        print("ready_up")
         setattr(self, cog, True)
         print(f" {cog} cog ready")
 
@@ -38,19 +40,20 @@ class Ready(object):
         return all([getattr(self, cog) for cog in COGS])
 
 
-class Bot(BotBase):
+class Bot(Bot):
     def __init__(self):
         self.ready = False
+        print("self.ready")
         self.cogs_ready = Ready()
-        self.prefix = PREFIX
+        print("self.cogs_ready")
 
         self.guild = None
         self.scheduler = AsyncIOScheduler()
 
-        #db.autosave(self.scheduler)
+        db.autosave(self.scheduler)
 
         super().__init__(
-            command_prefix=PREFIX, 
+            command_prefix=get_prefix, 
             owner_ids=OWNER_IDS,
             intents=Intents.all(),
         )
@@ -128,28 +131,17 @@ class Bot(BotBase):
     async def on_ready(self):
         if not self.ready:
             self.guild = self.get_guild(1137356223646273588)
+            print(self.guild)
             self.stdout = self.get_channel(1142556824030167170)
-            #self.scheduler.add_job(self.print_message, CronTrigger(day_of_week=0, hour=12, minute=0, second=0))
+            print(self.stdout)
+            ##self.scheduler.add_job(self.print_message, CronTrigger(day_of_week=0, hour=12, minute=0, second=0))
             self.scheduler.start()
 
-
-            # embed = Embed(title="Now online!", description="Umbral Stars is now online.", 
-            #               colour=0xFF0000, timestamp=datetime.utcnow())
-            # fields = [("Name", "Value", True),
-            #           ("Another field", "This field is next to the other one.", True),
-            #           ("A non-inline field", "This field will appear on its own row.", False)]
-            # for name, value, inline in fields:
-            #     embed.add_field(name=name, value=value, inline=inline)
-            # embed.set_author(name="Thomas Whettam", icon_url=self.guild.icon_url)
-            # embed.set_footer(text="This is a footer")
-            # embed.set_thumbnail(url=self.guild.icon_url)
-            # embed.set_image(url=self.guild.icon_url)
-            # await channel.send(embed=embed)
-
-            # await channel.send(file=File("./data/images/image1.png"))
-
+            print("hi")
             while not self.cogs_ready.all_ready():
+                print("eepy")
                 await sleep(0.5)
+            print("hi again")
 
             await self.stdout.send("Now online!")
             self.ready = True
