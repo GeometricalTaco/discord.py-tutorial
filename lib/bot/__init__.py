@@ -59,24 +59,26 @@ class Bot(Bot):
         )
 
     async def setup_hook(self):
+        print("running setup..")
         for cog in COGS:
             await self.load_extension(f"lib.cogs.{cog}")
             print(f" {cog} cog loaded")
 
         print("setup complete")
 
+    async def close(self):
+        await super().close()
+        await self.session.close()
 
-    async def run(self, version):
+
+    def run(self, version):
         self.VERSION = version
-
-        print("running setup..")
-        await self.setup_hook()
 
         with open("./lib/bot/token", "r", encoding="utf-8") as tf:
             self.TOKEN = tf.read()
 
         print("running bot...")
-        await super().run(self.TOKEN, reconnect=True)
+        super().run(self.TOKEN, reconnect=True)
 
     async def process_commands(self, message):
         ctx = await self.get_context(message, cls=Context)
