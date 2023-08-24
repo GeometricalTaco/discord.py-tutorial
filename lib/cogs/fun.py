@@ -82,5 +82,5 @@ class Fun(Cog):
 			self.bot.cogs_ready.ready_up("fun")
 
 
-def setup(bot):
-	bot.add_cog(Fun(bot))
+async def setup(bot):
+	await bot.add_cog(Fun(bot))

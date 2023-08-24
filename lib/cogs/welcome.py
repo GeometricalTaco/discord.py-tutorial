@@ -33,5 +33,5 @@ class Welcome(Cog):
 		await self.bot.get_channel(904327476401029181).send(f"{member.display_name} has left {member.guild.name}.")
 
 
-def setup(bot):
-	bot.add_cog(Welcome(bot))
+async def setup(bot):
+	await bot.add_cog(Welcome(bot))

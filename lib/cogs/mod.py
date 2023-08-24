@@ -250,5 +250,5 @@ class Mod(Cog):
 	# 			await message.delete()
 	# 			await message.channel.send("You can't use that word/phrase here.")
 
-def setup(bot):
-	bot.add_cog(Mod(bot))
+async def setup(bot):
+	await bot.add_cog(Mod(bot))

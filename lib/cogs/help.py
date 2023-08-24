@@ -83,6 +83,6 @@ class Help(Cog):
 		if not self.bot.ready:
 			self.bot.cogs_ready.ready_up("help")
 
-def setup(bot):
-	bot.add_cog(Help(bot))
+async def setup(bot):
+	await bot.add_cog(Help(bot))
 
