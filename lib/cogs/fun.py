@@ -20,8 +20,8 @@ class Fun(Cog):
 	async def zhongli(self, ctx):
 		await ctx.send("https://tenor.com/view/zhongli-spin-fly-gif-23152749")
 
+	# must be +roll 1d6 for example
 	@command(name="dice", aliases=["roll"])
-	@cooldown(1, 60, BucketType.user)
 	async def roll_dice(self, ctx, die_string: str):
 		dice, value = (int(term) for term in die_string.split("d"))
 
@@ -43,33 +43,41 @@ class Fun(Cog):
 			await ctx.send("I can't find that member")
 
 	@command(name="echo", aliases=["say"])
-	@cooldown(1, 15, BucketType.guild)
 	async def echo_message(self, ctx, *, message):
 		await ctx.message.delete()
 		await ctx.send(message)
 
 	@command(name="fact")
-	@cooldown(3, 60, BucketType.guild)
 	async def animal_fact(self, ctx, animal: str):
 		if (animal := animal.lower()) in ("dog", "cat", "panda", "fox", "bird", "koala"):
 			FACT_URL = f"https://some-random-api.ml/facts/{animal}"
+			print(FACT_URL)
 			IMAGE_URL = f"https://some-random-api.ml/img/{'birb' if animal == 'bird' else animal}"
+			print(IMAGE_URL)
 
 			async with request("GET", IMAGE_URL, headers={}) as response:
+				print(response.status)
 				if response.status == 200:
+					print("status 200 image request block")
+					print(response)
 					data = await response.json()
+					print("data part")
+					print(data)
 					image_link = data["link"]
+					
 
 				else:
 					image_link = None
 
 			async with request("GET", FACT_URL, headers={}) as response:
+				print(response.status)
 				if response.status == 200:
+					print("status 200 fact request block")
 					data = await response.json()
 
 					embed = Embed(title=f"{animal.title()} fact",
 								  description=data["fact"],
-								  colour=ctx.author.colour)
+								  colour=self.ctx.author.colour)
 					if image_link is not None:
 						embed.set_image(url=image_link)
 					await ctx.send(embed=embed)

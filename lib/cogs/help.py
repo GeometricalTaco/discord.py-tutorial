@@ -24,7 +24,7 @@ class HelpMenu(ListPageSource):
 	def __init__(self, ctx, data):
 		self.ctx = ctx
 
-		super().__init__(data, per_page=3)
+		super().__init__(data, per_page=5)
 
 	async def write_page(self, menu, fields=[]):
 		offset = (menu.current_page*self.per_page) + 1
@@ -33,7 +33,7 @@ class HelpMenu(ListPageSource):
 		embed = Embed(title="Help",
 					  description="Welcome to the Umbral Stars help dialog!",
 					  colour=self.ctx.author.colour)
-		embed.set_thumbnail(url=self.ctx.guild.me.avatar_url)
+		embed.set_thumbnail(url=self.ctx.guild.me.avatar)
 		embed.set_footer(text=f"{offset:,} - {min(len_data, offset+self.per_page-1):,} of {len_data:,} commands.")
 
 		for name, value in fields:

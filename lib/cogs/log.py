@@ -43,13 +43,13 @@ class Log(Cog):
 
 			await self.log_channel.send(embed=embed)
 
-		if before.avatar_url != after.avatar_url:
+		if before.avatar != after.avatar:
 			embed = Embed(title="Avatar Change",
 						  description="New image below, old image to the right",
 						  colour=after.colour,
 						  timestamp=datetime.utcnow())
-			embed.set_thumbnail(url=before.avatar_url)
-			embed.set_image(url=after.avatar_url)
+			embed.set_thumbnail(url=before.avatar)
+			embed.set_image(url=after.avatar)
 
 			await self.log_channel.send(embed=embed)
 

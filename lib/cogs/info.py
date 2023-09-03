@@ -30,13 +30,14 @@ class Info(Cog):
 		for name, value, inline in fields:
 			embed.add_field(name=name, value=value, inline=inline)
 
-		embed.set_thumbnail(url=target.avatar_url)
+		embed.set_thumbnail(url=target.avatar)
 
 		await ctx.send(embed=embed)
 
 
 	@command(name="serverinfo", aliases=["guildinfo", "si", "gi"])
 	async def server_info(self, ctx):
+		print(ctx.guild.members)
 
 		embed = Embed(title="Server Information",
 					  colour=ctx.guild.owner.colour,
@@ -50,7 +51,7 @@ class Info(Cog):
 		fields = [("ID", ctx.guild.id, True),
 				  ("Owner", ctx.guild.owner, True),
 				  ("Region", ctx.guild.region, True),
-				  ("Created at", ctx.guild.created_at.strftime("%d/%m/%Y %H:%M:%S"), True),
+				  ("Created at", ctx.guild.created_at, True),
 				  ("Members", len(ctx.guild.members), True),
 				  ("Humans", len(list(filter(lambda m: not m.bot, ctx.guild.members))), True),
 				  ("Bots", len(list(filter(lambda m: m.bot, ctx.guild.members))), True),
@@ -66,7 +67,7 @@ class Info(Cog):
 		for name, value, inline in fields:
 			embed.add_field(name=name, value=value, inline=inline)
 
-		embed.set_thumbnail(url=ctx.guild.icon_url)
+		embed.set_thumbnail(url=ctx.guild.icon)
 
 		await ctx.send(embed=embed)
 

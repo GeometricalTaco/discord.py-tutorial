@@ -35,7 +35,7 @@ class Mod(Cog):
 								  colour=0xDD2222,
 								  timestamp=datetime.utcnow())
 
-					embed.set_thumbnail(url=target.avatar_url)
+					embed.set_thumbnail(url=target.avatar)
 
 					fields = [("Member", f"{target.name} a.k.a. {target.display_name}", False),
 							  ("Actioned by", ctx.author.display_name, False),
@@ -75,7 +75,7 @@ class Mod(Cog):
 								  colour=0xDD2222,
 								  timestamp=datetime.utcnow())
 
-					embed.set_thumbnail(url=target.avatar_url)
+					embed.set_thumbnail(url=target.avatar)
 
 					fields = [("Member", f"{target.name} a.k.a. {target.display_name}", False),
 							  ("Actioned by", ctx.author.display_name, False),
@@ -140,7 +140,7 @@ class Mod(Cog):
 									  colour=0xDD2222,
 									  timestamp=datetime.utcnow())
 
-						embed.set_thumbnail(url=target.avatar_url)
+						embed.set_thumbnail(url=target.avatar)
 
 						fields = [("Member", target.display_name, False),
 								  ("Actioned by", ctx.author.display_name, False),
@@ -186,7 +186,7 @@ class Mod(Cog):
 							  colour=0xDD2222,
 							  timestamp=datetime.utcnow())
 
-				embed.set_thumbnail(url=target.avatar_url)
+				embed.set_thumbnail(url=target.avatar)
 
 				fields = [("Member", target.display_name, False),
 						  ("Reason", reason, False)]
