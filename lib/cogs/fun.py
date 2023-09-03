@@ -16,6 +16,10 @@ class Fun(Cog):
 	async def say_hello(self, ctx):
 		await ctx.send(f"{choice(('Hello', 'Hi', 'Hey', 'Hiya'))} {ctx.author.mention}!")
 
+	@command(name="zhongli")
+	async def zhongli(self, ctx):
+		await ctx.send("https://tenor.com/view/zhongli-spin-fly-gif-23152749")
+
 	@command(name="dice", aliases=["roll"])
 	@cooldown(1, 60, BucketType.user)
 	async def roll_dice(self, ctx, die_string: str):

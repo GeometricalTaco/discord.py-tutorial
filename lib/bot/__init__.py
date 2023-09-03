@@ -182,3 +182,10 @@ class Bot(Bot):
 
 
 bot = Bot()
+
+
+
+## commands in progress:
+## -spinning zhongli gif
+## -todo list for tsu
+## -automatic clip sending?? need to check twitch api
