@@ -47,45 +47,45 @@ class Fun(Cog):
 		await ctx.message.delete()
 		await ctx.send(message)
 
-	@command(name="fact")
-	async def animal_fact(self, ctx, animal: str):
-		if (animal := animal.lower()) in ("dog", "cat", "panda", "fox", "bird", "koala"):
-			FACT_URL = f"https://some-random-api.ml/facts/{animal}"
-			print(FACT_URL)
-			IMAGE_URL = f"https://some-random-api.ml/img/{'birb' if animal == 'bird' else animal}"
-			print(IMAGE_URL)
+	# @command(name="fact")
+	# async def animal_fact(self, ctx, animal: str):
+	# 	if (animal := animal.lower()) in ("dog", "cat", "panda", "fox", "bird", "koala"):
+	# 		FACT_URL = f"https://some-random-api.ml/facts/{animal}"
+	# 		print(FACT_URL)
+	# 		IMAGE_URL = f"https://some-random-api.ml/img/{'birb' if animal == 'bird' else animal}"
+	# 		print(IMAGE_URL)
 
-			async with request("GET", IMAGE_URL, headers={}) as response:
-				print(response.status)
-				if response.status == 200:
-					print("status 200 image request block")
-					print(response)
-					data = await response.json()
-					print("data part")
-					print(data)
-					image_link = data["link"]
+	# 		async with request("GET", IMAGE_URL, headers={}) as response:
+	# 			print(response.status)
+	# 			if response.status == 200:
+	# 				print("status 200 image request block")
+	# 				print(response)
+	# 				data = await response.json()
+	# 				print("data part")
+	# 				print(data)
+	# 				image_link = data["link"]
 					
 
-				else:
-					image_link = None
+	# 			else:
+	# 				image_link = None
 
-			async with request("GET", FACT_URL, headers={}) as response:
-				print(response.status)
-				if response.status == 200:
-					print("status 200 fact request block")
-					data = await response.json()
+	# 		async with request("GET", FACT_URL, headers={}) as response:
+	# 			print(response.status)
+	# 			if response.status == 200:
+	# 				print("status 200 fact request block")
+	# 				data = await response.json()
 
-					embed = Embed(title=f"{animal.title()} fact",
-								  description=data["fact"],
-								  colour=self.ctx.author.colour)
-					if image_link is not None:
-						embed.set_image(url=image_link)
-					await ctx.send(embed=embed)
+	# 				embed = Embed(title=f"{animal.title()} fact",
+	# 							  description=data["fact"],
+	# 							  colour=self.ctx.author.colour)
+	# 				if image_link is not None:
+	# 					embed.set_image(url=image_link)
+	# 				await ctx.send(embed=embed)
 
-				else:
-					await ctx.send(f"API returned a {response.status} status.")
-		else:
-			await ctx.send("No facts are available for that animal.")
+	# 			else:
+	# 				await ctx.send(f"API returned a {response.status} status.")
+	# 	else:
+	# 		await ctx.send("No facts are available for that animal.")
 
 	@Cog.listener()
 	async def on_ready(self):

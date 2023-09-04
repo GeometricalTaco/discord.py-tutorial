@@ -37,7 +37,6 @@ class Info(Cog):
 
 	@command(name="serverinfo", aliases=["guildinfo", "si", "gi"])
 	async def server_info(self, ctx):
-		print(ctx.guild.members)
 
 		embed = Embed(title="Server Information",
 					  colour=ctx.guild.owner.colour,
@@ -50,12 +49,10 @@ class Info(Cog):
 
 		fields = [("ID", ctx.guild.id, True),
 				  ("Owner", ctx.guild.owner, True),
-				  ("Region", ctx.guild.region, True),
 				  ("Created at", ctx.guild.created_at, True),
 				  ("Members", len(ctx.guild.members), True),
 				  ("Humans", len(list(filter(lambda m: not m.bot, ctx.guild.members))), True),
 				  ("Bots", len(list(filter(lambda m: m.bot, ctx.guild.members))), True),
-				  ("Banned members", len(await ctx.guild.bans()), True),
 				  ("Statuses", f"🟢 {statuses[0]} 🟡 {statuses[1]} 🔴 {statuses[2]} ⚫ {statuses[3]}", True),
 				  ("Text Channels", len(ctx.guild.text_channels), True),
 				  ("Voice Channels", len(ctx.guild.voice_channels), True),
