@@ -27,12 +27,10 @@ def get_prefix(bot, message):
 
 class Ready(object):
     def __init__(self):
-        print("Ready class init")
         for cog in COGS:
             setattr(self, cog, False)
 
     def ready_up(self, cog):
-        print("ready_up")
         setattr(self, cog, True)
         print(f" {cog} cog ready")
 
@@ -43,9 +41,7 @@ class Ready(object):
 class Bot(Bot):
     def __init__(self):
         self.ready = False
-        print("self.ready")
         self.cogs_ready = Ready()
-        print("self.cogs_ready")
 
         self.guild = None
         self.scheduler = AsyncIOScheduler()
@@ -133,17 +129,11 @@ class Bot(Bot):
     async def on_ready(self):
         if not self.ready:
             self.guild = self.get_guild(1137356223646273588)
-            print(self.guild)
             self.stdout = self.get_channel(1142556824030167170)
-            print(self.stdout)
-            ##self.scheduler.add_job(self.print_message, CronTrigger(day_of_week=0, hour=12, minute=0, second=0))
             self.scheduler.start()
 
-            print("hi")
             while not self.cogs_ready.all_ready():
-                print("eepy")
                 await sleep(0.5)
-            print("hi again")
 
             await self.stdout.send("Now online!")
             self.ready = True
